@@ -1,0 +1,13 @@
+{% extends "articles/base.html" %}
+{% block title %}Article List{% endblock %}
+{% block body %}
+<h2>
+{{ article.title }}
+</h2>
+<p>
+{{ article.publish_date }}
+</p>
+<p>
+{{ article.content }}
+</p>
+{% endblock %}

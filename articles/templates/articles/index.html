@@ -1,0 +1,12 @@
+{% extends "articles/base.html" %}
+{% block title %}Article List{% endblock %}
+{% block body %}
+<a href="{% url 'articles:create' %}">Write an article</a>
+
+<h2>Articles:</h2>
+<ul>
+{% for article in articles %}
+    <li><a href="{% url 'articles:article' article.id %}">{{ article.title }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

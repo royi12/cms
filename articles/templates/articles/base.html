@@ -1,0 +1,22 @@
+{% load staticfiles %}
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>cms - {% block title %}{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'articles/style.css' %}">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+<h1><a href="{% url 'articles:index' %}" id="logo">CMS</a></h1>
+{% block body %}{% endblock %}
+  <script src="{% static 'articles/script.js' %}"></script>
+</body>
+</html>

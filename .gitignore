@@ -60,3 +60,9 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# SQLite DB
+*.sqlite3
+
+# Django's migration dir
+migrations/

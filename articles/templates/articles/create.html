@@ -1,0 +1,12 @@
+{% extends "articles/base.html" %}
+{% block title %}Article List{% endblock %}
+{% block body %}
+<form method="post" action="{% url 'articles:publish' %}">
+{% csrf_token %}
+Title:
+<input type="text" name="title" />
+Content:
+<input type="text" name="content" />    
+<input type="submit" name="publish" value="Publish" />
+</form>
+{% endblock %}
