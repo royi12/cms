@@ -11,27 +11,6 @@ body {
   display: block;
 }
 
-/* Article list */
-ul {
-  list-style-type: none;
-}
-
-li a {
-  color: #333333;
-  font-size: 20px;
-  background: #f2f2f2;
-  padding: 20px 20px 20px 20px;
-  text-decoration: none;
-  display: block;
-  margin: 10px;
-}
-
-li a:hover {
-  background: #333333;
-  color: #f2f2f2;
-  text-decoration: none;
-}
-
 #write-article-button {
   color: #ffffff;
   font-size: 20px;
@@ -41,10 +20,31 @@ li a:hover {
   display: block;
   width: 150px;
   text-align: center;
-  margin: 0 auto;
+  margin: 0 auto 40px auto;
 }
 
 #write-article-button:hover {
-  background: #000000;
+  background: #333333;
+  text-decoration: none;
+}
+
+/* Article list */
+ul {
+  list-style-type: none;
+}
+
+li a {
+  color: #333333;
+  font-size: 20px;
+  background: #e2e2e2;
+  padding: 20px 20px 20px 20px;
+  text-decoration: none;
+  display: block;
+  margin: 10px;
+}
+
+li a:hover {
+  background: #333333;
+  color: #f2f2f2;
   text-decoration: none;
 }
