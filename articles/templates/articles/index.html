@@ -1,11 +1,18 @@
 {% extends "articles/base.html" %}
 {% block title %}Article List{% endblock %}
 {% block body %}
-<a id="write-article-button" href="{% url 'articles:create' %}">Write an article</a>
 
-<ul>
+<button onclick="toggleArticleForm()" id="write-article-button">Write an article</button>
+<div id="article-form-box">
+<form id="article-form" method="post" action="{% url 'articles:publish' %}">
+{% csrf_token %}
+<input id="title-input" type="text" name="title" placeholder="Title" />
+<textarea name="content" placeholder="Article"></textarea>
+<input type="submit" name="publish" value="Publish" id="publish-article-button"/>
+</form>
+</div>
+
 {% for article in articles %}
-    <li><a href="{% url 'articles:article' article.id %}">{{ article.title }}</a></li>
+    <div class="article-item"><a href="{% url 'articles:article' article.id %}">{{ article.title }}</a></div>
 {% endfor %}
-</ul>
 {% endblock %}

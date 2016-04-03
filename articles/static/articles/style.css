@@ -15,12 +15,11 @@ body {
   color: #ffffff;
   font-size: 20px;
   background: #3498db;
-  padding: 10px 20px 10px 20px;
+  padding: 20px 40px;
   text-decoration: none;
   display: block;
-  width: 150px;
   text-align: center;
-  margin: 0 auto 40px auto;
+  margin: 0 auto;
   border: 0;
 }
 
@@ -29,35 +28,14 @@ body {
   text-decoration: none;
 }
 
-/* Article list */
-ul {
-  list-style-type: none;
-}
-
-li a {
-  color: #333333;
-  font-size: 20px;
-  background: #e2e2e2;
-  padding: 20px 20px 20px 20px;
-  text-decoration: none;
-  display: block;
-  margin: 10px;
-}
-
-li a:hover {
-  background: #333333;
-  color: #f2f2f2;
-  text-decoration: none;
-}
-
 /* Write article form*/
-input {
-    width: 300px;
+#article-form input[type=text] {
+  width: 300px;
 }
 
 textarea {
-    width: 600px;
-    height: 400px;
+  width: 800px;
+  height: 400px;
 }
 
 input ,textarea {
@@ -78,4 +56,35 @@ input ,textarea {
 
 input:focus, textarea:focus {
   border: 2px solid #3498db;
+}
+
+#article-form-box {
+  display: block;
+  background: #a2a2a2;
+  margin: 10px;
+  height: 0px;
+}
+
+#article-form {
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 1.5s;
+}
+
+/* Article list */
+.article-item a {
+  color: #333333;
+  font-size: 20px;
+  background: #e2e2e2;
+  padding: 20px 20px 20px 20px;
+  text-decoration: none;
+  display: block;
+  margin: 10px;
+
+}
+
+.article-item a:hover {
+  background: #333333;
+  color: #f2f2f2;
+  text-decoration: none;
 }
