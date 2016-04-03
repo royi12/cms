@@ -16,11 +16,6 @@ def article(request, article_id):
     return render(request, 'articles/article.html', context)
     
     
-def create(request):
-    context = {}
-    return render(request, 'articles/create.html', context)
-    
-    
 def publish(request):
     new_article = Article(title=request.POST['title'], content=request.POST['content'], publish_date=timezone.now())
     new_article.save()
