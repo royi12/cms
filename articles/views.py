@@ -2,14 +2,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate, login
 
 from .models import Article
-from .forms import ArticleForm
+from .forms import ArticleForm, LoginForm
 
 
 def article_list(request):
     article_form = ArticleForm()
-    context = {'articles': Article.objects.order_by('-publish_date'), 'article_form': article_form}
+    context = {'articles': Article.objects.order_by('-publish_date'), 'article_form': article_form, 'username': request.user.username}
     return render(request, 'articles/index.html', context)
 
 
@@ -30,3 +31,23 @@ def publish(request):
                           publish_date=timezone.now())
     new_article.save()
     return HttpResponseRedirect(reverse('articles:article', args=(new_article.id,)))
+
+
+def login_view(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('articles:index'))
+
+    login_page = render(request, 'articles/login.html', {'form': LoginForm()})
+    if request.method != 'POST':
+        return login_page
+
+    received_form = LoginForm(request.POST)
+    if not received_form.is_valid():
+        return login_page
+
+    user = authenticate(username=received_form.cleaned_data['username'], password=received_form.cleaned_data['password'])
+    if user is None:
+        return login_page
+
+    login(request, user)
+    return HttpResponseRedirect(reverse('articles:index'))

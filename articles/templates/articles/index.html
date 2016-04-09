@@ -1,13 +1,16 @@
 {% extends "articles/base.html" %}
 {% block title %}Article List{% endblock %}
 {% block body %}
-
-<button onclick="toggleArticleForm()" id="write-article-button">Write an article</button>
+{% if user.is_authenticated %}
+<a onclick="toggleArticleForm()" href="#" id="write-article-button">Write an article</a>
+{% else %}
+<a href="/login" id="login-button">Login</a>
+{% endif %}
 <div id="article-form-box">
 <form id="article-form" method="post" action="{% url 'articles:publish' %}">
 {% csrf_token %}
 {{ article_form }}
-<input type="submit" name="publish" value="Publish" id="publish-article-button"/>
+<a onclick="document.getElementById('article-form').submit();" id="publish-article-button" href="#">Publish</a>
 </form>
 </div>
 
