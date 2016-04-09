@@ -1,6 +1,6 @@
 function focusTitleInput()
 {
-    document.getElementById("title-input").focus();
+    document.getElementById("id_title").focus();
 }
 
 function toggleArticleForm()
