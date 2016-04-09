@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
@@ -18,7 +19,7 @@ def article(request, article_id):
     context = {'article': Article.objects.get(id=article_id)}
     return render(request, 'articles/article.html', context)
 
-
+@login_required
 def publish(request):
     if request.method != 'POST':
         return HttpResponseRedirect(reverse('articles:index'))
