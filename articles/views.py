@@ -29,7 +29,7 @@ def publish(request):
         return HttpResponseRedirect(reverse('articles:index'))
 
     new_article = Article(title=form.cleaned_data['title'], content=form.cleaned_data['content'],
-                          publish_date=timezone.now())
+                          publish_date=timezone.now(), author=request.user)
     new_article.save()
     return HttpResponseRedirect(reverse('articles:article', args=(new_article.id,)))
 

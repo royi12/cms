@@ -6,6 +6,9 @@
 </h2>
 <p>
 {{ article.publish_date }}
+{% if article.author %}
+    | {{ article.author.username }}
+{% endif %}
 </p>
 <p>
 {{ article.content }}
