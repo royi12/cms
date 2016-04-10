@@ -64,8 +64,5 @@ target/
 # SQLite DB
 *.sqlite3
 
-# Django's migration dir
-migrations/
-
 # PyCharm fir
 .idea/
