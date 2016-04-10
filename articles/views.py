@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
 from django.core.urlresolvers import reverse
@@ -18,6 +18,7 @@ def article_list(request):
 def article(request, article_id):
     context = {'article': Article.objects.get(id=article_id)}
     return render(request, 'articles/article.html', context)
+
 
 @login_required
 def publish(request):
