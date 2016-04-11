@@ -66,3 +66,6 @@ target/
 
 # PyCharm dir
 .idea/
+
+# secret batch
+run_secret.bat

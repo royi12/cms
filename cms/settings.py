@@ -40,12 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
 
-    # allauth app
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google'
+    # python-social-auth
+    'social.apps.django_app.default'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -129,16 +125,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
-
-# allauth
-SITE_ID = 2
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
 
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    # python-social-auth
+    'social.backends.google.GoogleOAuth2'
 )
+
+# python-social-auth
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("GOOGLE_CLIENT_ID", '')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("GOOGLE_SECRET", '')
