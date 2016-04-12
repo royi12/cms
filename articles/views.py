@@ -20,8 +20,10 @@ def article_list(request):
 
 
 def article(request, article_id):
-    context = {'article': Article.objects.get(id=article_id)}
-    return render(request, 'articles/article.html', context)
+    article = Article.objects.get(id=article_id)
+    article.view_count += 1
+    article.save()
+    return render(request, 'articles/article.html', {'article': article})
 
 
 class PublishView(View):
