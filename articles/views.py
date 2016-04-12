@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
@@ -8,12 +9,13 @@ from django.utils.decorators import method_decorator
 from django.views.generic import View
 
 from .models import Article
-from .forms import ArticleForm, LoginForm
+from .forms import ArticleForm, LoginForm, SignupForm
 
 
 def article_list(request):
     article_form = ArticleForm()
-    context = {'articles': Article.objects.order_by('-publish_date'), 'article_form': article_form, 'username': request.user.username}
+    context = {'articles': Article.objects.order_by('-publish_date'), 'article_form': article_form,
+               'username': request.user.username}
     return render(request, 'articles/index.html', context)
 
 
@@ -22,8 +24,8 @@ def article(request, article_id):
     return render(request, 'articles/article.html', context)
 
 
-@method_decorator(login_required)
 class PublishView(View):
+    @method_decorator(login_required)
     def post(self, request):
         form = ArticleForm(request.POST)
         if not form.is_valid():
@@ -52,5 +54,29 @@ class LoginView(View):
         if user is None:
             return login_page
 
+        login(request, user)
+        return HttpResponseRedirect(reverse('articles:index'))
+
+
+class SignupView(View):
+    def get(self, request):
+        if request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('articles:index'))
+        return render(request, 'articles/signup.html', {'form': SignupForm()})
+
+    def post(self, request):
+        signup_page = render(request, 'articles/signup.html', {'form': SignupForm()})
+        received_form = SignupForm(request.POST)
+        if not received_form.is_valid():
+            return signup_page
+
+        new_user = User.objects.create_user(username=received_form.cleaned_data['username'],
+                                            password=received_form.cleaned_data['password'])
+        new_user.save()
+
+        user = authenticate(username=received_form.cleaned_data['username'],
+                            password=received_form.cleaned_data['password'])
+        if user is None:
+            return signup_page
         login(request, user)
         return HttpResponseRedirect(reverse('articles:index'))

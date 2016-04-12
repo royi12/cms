@@ -10,3 +10,8 @@ class ArticleForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100, label="", widget=forms.TextInput(attrs={'placeholder': "Username"}))
     password = forms.CharField(max_length=100, label="", widget=forms.PasswordInput(attrs={'placeholder': "Password"}))
+
+
+class SignupForm(forms.Form):
+    username = forms.CharField(max_length=100, label="", widget=forms.TextInput(attrs={'placeholder': "Username"}))
+    password = forms.CharField(max_length=100, label="", widget=forms.PasswordInput(attrs={'placeholder': "Password"}))

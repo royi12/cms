@@ -1,0 +1,14 @@
+{% extends "articles/base.html" %}
+
+{% block title %}Login{% endblock %}
+{% block body %}
+<h2>
+<a href="{% url 'social:begin' 'google-oauth2' %}">Signup with Google</a>
+</h2>
+Or
+<form method="post" action="{% url 'articles:signup' %}">
+{% csrf_token %}
+{{ form }}
+<input type="submit" name="signup" value="Signup" />
+</form>
+{% endblock %}
