@@ -16,7 +16,7 @@ h2 {
   display: block;
 }
 
-#signup-button, #login-button, #write-article-button, #publish-article-button{
+.button{
   color: #ffffff;
   font-size: 20px;
   background: #3498db;
@@ -32,9 +32,8 @@ h2 {
   background: green;
 }
 
-#signup-button:hover, #login-button:hover, #write-article-button:hover, #publish-article-button:hover{
+.button:hover, #signup-button:hover{
   background: #333333;
-  text-decoration: none;
 }
 
 /* Write article form*/

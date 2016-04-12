@@ -2,17 +2,17 @@
 {% block title %}Article List{% endblock %}
 {% block body %}
 {% if user.is_authenticated %}
-<a onclick="toggleArticleForm()" href="#" id="write-article-button">Write an article</a>
+<a onclick="toggleArticleForm()" href="#" class="button">Write an article</a>
 {% else %}
-<a href="/login/" id="login-button">Login</a>
+<a href="/login/" class="button">Login</a>
 Or
-<a href="/signup/" id="signup-button">Signup</a>
+<a href="/signup/" class="button" id="signup-button">Signup</a>
 {% endif %}
 <div id="article-form-box">
 <form id="article-form" method="post" action="{% url 'articles:publish' %}">
 {% csrf_token %}
 {{ article_form }}
-<a onclick="document.getElementById('article-form').submit();" id="publish-article-button" href="#">Publish</a>
+<a onclick="document.getElementById('article-form').submit();" class="button" href="#">Publish</a>
 </form>
 </div>
 
