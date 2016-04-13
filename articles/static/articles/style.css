@@ -66,6 +66,10 @@ input:focus, textarea:focus {
   border: 2px solid #3498db;
 }
 
+.input-error, .input-error:focus {
+  border-color: red;
+}
+
 #article-form-box {
   display: block;
   background: #a2a2a2;

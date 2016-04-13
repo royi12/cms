@@ -34,3 +34,15 @@ function toggleArticleForm()
         toggleButton.innerHTML = "Hide";
     }
 }
+
+function isSignupFormValid()
+{
+    form = document.getElementById("signup-form");
+    if (form["password"].value != form["password-confirmation"].value)
+    {
+        form["password-confirmation"].className = "input-error";
+        return false;
+    }
+    form["password-confirmation"].className = "";
+    return true;
+}

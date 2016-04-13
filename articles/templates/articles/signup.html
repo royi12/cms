@@ -6,11 +6,11 @@
 <a href="{% url 'social:begin' 'google-oauth2' %}">Signup with Google</a>
 </h2>
 Or
-<form method="post" action="{% url 'articles:signup' %}">
+<form id="signup-form" method="post" action="{% url 'articles:signup' %}" onsubmit="return isSignupFormValid()">
 {% csrf_token %}
 <input type="text" name="username" placeholder="Username" />
 <input type="password" name="password" placeholder="Password" />
-<input type="password" name="password-confirmation" placeholder="Password Confirmation" />
+<input type="password" name="password-confirmation" placeholder="Password Confirmation" oninput="isSignupFormValid()"/>
 <input type="submit" name="signup" value="Signup" />
 </form>
 {% endblock %}
