@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 from django.core.urlresolvers import reverse
@@ -64,10 +64,10 @@ class SignupView(View):
     def get(self, request):
         if request.user.is_authenticated():
             return HttpResponseRedirect(reverse('articles:index'))
-        return render(request, 'articles/signup.html', {'form': SignupForm()})
+        return render(request, 'articles/signup.html')
 
     def post(self, request):
-        signup_page = render(request, 'articles/signup.html', {'form': SignupForm()})
+        signup_page = render(request, 'articles/signup.html')
         received_form = SignupForm(request.POST)
         if not received_form.is_valid():
             return signup_page

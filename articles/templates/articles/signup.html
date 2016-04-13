@@ -8,7 +8,9 @@
 Or
 <form method="post" action="{% url 'articles:signup' %}">
 {% csrf_token %}
-{{ form }}
+<input type="text" name="username" placeholder="Username" />
+<input type="password" name="password" placeholder="Password" />
+<input type="password" name="password-confirmation" placeholder="Password Confirmation" />
 <input type="submit" name="signup" value="Signup" />
 </form>
 {% endblock %}
