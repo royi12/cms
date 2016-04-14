@@ -67,10 +67,9 @@ class SignupView(View):
         return render(request, 'articles/signup.html')
 
     def post(self, request):
-        signup_page = render(request, 'articles/signup.html')
         received_form = SignupForm(request.POST)
         if not received_form.is_valid():
-            return signup_page
+            return render(request, 'articles/signup.html')
 
         new_user = User.objects.create_user(username=received_form.cleaned_data['username'],
                                             password=received_form.cleaned_data['password'])
@@ -79,6 +78,19 @@ class SignupView(View):
         user = authenticate(username=received_form.cleaned_data['username'],
                             password=received_form.cleaned_data['password'])
         if user is None:
-            return signup_page
+            return render(request, 'articles/signup.html')
         login(request, user)
         return HttpResponseRedirect(reverse('articles:index'))
+
+
+class IsUserExistView(View):
+    """
+    Used by signup form validation in client side using ajax.
+    """
+    def get(self, request):
+        username = request.GET.get('username')
+        try:
+            User.objects.get(username=username);
+        except  User.DoesNotExist:
+            return HttpResponse('false')
+        return HttpResponse('true')

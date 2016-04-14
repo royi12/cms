@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^login/$', views.LoginView.as_view(), name='login'),
     url(r'^signup/$', views.SignupView.as_view(), name='signup'),
     url(r'^(?P<article_id>[0-9]+)/$', views.article, name='article'),
+    url(r'^is_user_exist/$', views.IsUserExistView.as_view(), name='is_user_exist'),
 ]
