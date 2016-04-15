@@ -8,9 +8,9 @@
 Or
 <form id="signup-form" method="post" action="{% url 'articles:signup' %}" onsubmit="return isSignupFormValid()">
 {% csrf_token %}
-<input type="text" name="username" placeholder="Username" oninput="isUsernameExist(this.value)" />
-<input type="password" name="password" placeholder="Password" />
-<input type="password" name="password-confirmation" placeholder="Password Confirmation" oninput="isSignupFormValid()"/>
+<input type="text" name="username" placeholder="Username" oninput="isUsernameExist(this.value)" autofocus />
+<input type="password" name="password1" placeholder="Password" />
+<input type="password" name="password2" placeholder="Password Confirmation" oninput="isSignupFormValid()"/>
 <input type="submit" name="signup" value="Signup" />
 </form>
 {% endblock %}

@@ -8,7 +8,7 @@
 Or
 <form method="post" action="{% url 'articles:login' %}">
 {% csrf_token %}
-<input type="text" name="username" placeholder="Username" />
+<input type="text" name="username" placeholder="Username" autofocus />
 <input type="password" name="password" placeholder="Password" />
 <input type="submit" name="login" value="Login" />
 </form>

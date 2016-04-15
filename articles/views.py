@@ -1,18 +1,18 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_safe
 from django.views.generic import View
-from django.views.generic.edit import FormView
-from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic.edit import CreateView
 
+from .forms import ArticleForm
 from .models import Article
-from .forms import ArticleForm, LoginForm, SignupForm
 
 
 @require_safe
@@ -55,27 +55,14 @@ class PublishView(View):
         return redirect('articles:article', article_id=new_article.id)
 
 
-class LoginView(FormView):
-    template_name = 'articles/login.html'
-    form_class = AuthenticationForm
-    success_url = reverse_lazy('articles:index')
-
-    def form_valid(self, form):
-        login(self.request, form.get_user())
-        return super(FormView, self).form_valid(form)
-
-
-class SignupView(FormView):
+class SignupView(CreateView):
     template_name = 'articles/signup.html'
-    form_class = SignupForm
+    form_class = UserCreationForm
     success_url = reverse_lazy('articles:index')
 
     def form_valid(self, form):
         # Signup and login user
-        new_user = User.objects.create_user(username=form.cleaned_data['username'],
-                                            password=form.cleaned_data['password'])
-        new_user.save()
-        user = authenticate(username=form.cleaned_data['username'],
-                            password=form.cleaned_data['password'])
+        response = super(SignupView, self).form_valid(form)
+        user = authenticate(username=form.cleaned_data['username'],password=form.cleaned_data['password1'])
         login(self.request, user)
-        return super(FormView, self).form_valid(form)
+        return response

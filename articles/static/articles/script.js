@@ -32,11 +32,11 @@ function toggleArticleForm() {
 
 function isSignupFormValid() {
     var form = document.getElementById("signup-form");
-    if (form["password"].value != form["password-confirmation"].value) {
-        form["password-confirmation"].className = "input-error";
+    if (form["password1"].value != form["password2"].value) {
+        form["password2"].className = "input-error";
         return false;
     }
-    form["password-confirmation"].className = "";
+    form["password2"].className = "";
     return true;
 }
 
