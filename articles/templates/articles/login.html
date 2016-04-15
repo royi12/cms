@@ -6,7 +6,7 @@
 <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
 </h2>
 Or
-<form method="post" action="{% url 'articles:login' %}">
+<form method="post" action="">
 {% csrf_token %}
 <input type="text" name="username" placeholder="Username" autofocus />
 <input type="password" name="password" placeholder="Password" />

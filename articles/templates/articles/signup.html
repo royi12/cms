@@ -6,7 +6,7 @@
 <a href="{% url 'social:begin' 'google-oauth2' %}">Signup with Google</a>
 </h2>
 Or
-<form id="signup-form" method="post" action="{% url 'articles:signup' %}" onsubmit="return isSignupFormValid()">
+<form id="signup-form" method="post" action="" onsubmit="return isSignupFormValid()">
 {% csrf_token %}
 <input type="text" name="username" placeholder="Username" oninput="isUsernameExist(this.value)" autofocus />
 <input type="password" name="password1" placeholder="Password" />
