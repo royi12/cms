@@ -11,7 +11,8 @@ Or
 <div id="article-form-box">
 <form id="article-form" method="post" action="{% url 'articles:publish' %}">
 {% csrf_token %}
-{{ article_form }}
+<input type="text" name="title" placeholder="Title" />
+<textarea name="content" placeholder="Content"></textarea>
 <a onclick="document.getElementById('article-form').submit();" class="button" href="#">Publish</a>
 </form>
 </div>

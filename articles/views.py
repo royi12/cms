@@ -1,24 +1,24 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
+from django.views.decorators.http import require_safe
 from django.views.generic import View
 
 from .models import Article
 from .forms import ArticleForm, LoginForm, SignupForm
 
 
+@require_safe
 def article_list(request):
-    article_form = ArticleForm()
-    context = {'articles': Article.objects.order_by('-publish_date'), 'article_form': article_form,
-               'username': request.user.username}
+    context = {'articles': Article.objects.order_by('-publish_date')}
     return render(request, 'articles/index.html', context)
 
 
+@require_safe
 def article(request, article_id):
     article = Article.objects.get(id=article_id)
     article.view_count += 1
@@ -26,27 +26,40 @@ def article(request, article_id):
     return render(request, 'articles/article.html', {'article': article})
 
 
+@require_safe
+def is_user_exist(request):
+    """
+    Used by signup form validation in client side using ajax.
+    """
+    username = request.GET.get('username')
+    try:
+        User.objects.get(username=username)
+    except User.DoesNotExist:
+        return HttpResponse('false')
+    return HttpResponse('true')
+
+
 class PublishView(View):
     @method_decorator(login_required)
     def post(self, request):
         form = ArticleForm(request.POST)
         if not form.is_valid():
-            return HttpResponseRedirect(reverse('articles:index'))
+            return redirect('articles:index')
 
         new_article = Article(title=form.cleaned_data['title'], content=form.cleaned_data['content'],
                               publish_date=timezone.now(), author=request.user)
         new_article.save()
-        return HttpResponseRedirect(reverse('articles:article', args=(new_article.id,)))
+        return redirect('articles:article', article_id=new_article.id)
 
 
 class LoginView(View):
     def get(self, request):
         if request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('articles:index'))
-        return render(request, 'articles/login.html', {'form': LoginForm()})
+            return redirect('articles:index')
+        return render(request, 'articles/login.html')
 
     def post(self, request):
-        login_page = render(request, 'articles/login.html', {'form': LoginForm()})
+        login_page = render(request, 'articles/login.html')
         received_form = LoginForm(request.POST)
         if not received_form.is_valid():
             return login_page
@@ -57,13 +70,13 @@ class LoginView(View):
             return login_page
 
         login(request, user)
-        return HttpResponseRedirect(reverse('articles:index'))
+        return redirect('articles:index')
 
 
 class SignupView(View):
     def get(self, request):
         if request.user.is_authenticated():
-            return HttpResponseRedirect(reverse('articles:index'))
+            return redirect('articles:index')
         return render(request, 'articles/signup.html')
 
     def post(self, request):
@@ -80,17 +93,4 @@ class SignupView(View):
         if user is None:
             return render(request, 'articles/signup.html')
         login(request, user)
-        return HttpResponseRedirect(reverse('articles:index'))
-
-
-class IsUserExistView(View):
-    """
-    Used by signup form validation in client side using ajax.
-    """
-    def get(self, request):
-        username = request.GET.get('username')
-        try:
-            User.objects.get(username=username);
-        except  User.DoesNotExist:
-            return HttpResponse('false')
-        return HttpResponse('true')
+        return redirect('articles:index')
