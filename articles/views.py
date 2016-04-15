@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
@@ -7,6 +8,8 @@ from django.contrib.auth import authenticate, login
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_safe
 from django.views.generic import View
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import AuthenticationForm
 
 from .models import Article
 from .forms import ArticleForm, LoginForm, SignupForm
@@ -52,45 +55,27 @@ class PublishView(View):
         return redirect('articles:article', article_id=new_article.id)
 
 
-class LoginView(View):
-    def get(self, request):
-        if request.user.is_authenticated():
-            return redirect('articles:index')
-        return render(request, 'articles/login.html')
+class LoginView(FormView):
+    template_name = 'articles/login.html'
+    form_class = AuthenticationForm
+    success_url = reverse_lazy('articles:index')
 
-    def post(self, request):
-        login_page = render(request, 'articles/login.html')
-        received_form = LoginForm(request.POST)
-        if not received_form.is_valid():
-            return login_page
-
-        user = authenticate(username=received_form.cleaned_data['username'],
-                            password=received_form.cleaned_data['password'])
-        if user is None:
-            return login_page
-
-        login(request, user)
-        return redirect('articles:index')
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        return super(FormView, self).form_valid(form)
 
 
-class SignupView(View):
-    def get(self, request):
-        if request.user.is_authenticated():
-            return redirect('articles:index')
-        return render(request, 'articles/signup.html')
+class SignupView(FormView):
+    template_name = 'articles/signup.html'
+    form_class = SignupForm
+    success_url = reverse_lazy('articles:index')
 
-    def post(self, request):
-        received_form = SignupForm(request.POST)
-        if not received_form.is_valid():
-            return render(request, 'articles/signup.html')
-
-        new_user = User.objects.create_user(username=received_form.cleaned_data['username'],
-                                            password=received_form.cleaned_data['password'])
+    def form_valid(self, form):
+        # Signup and login user
+        new_user = User.objects.create_user(username=form.cleaned_data['username'],
+                                            password=form.cleaned_data['password'])
         new_user.save()
-
-        user = authenticate(username=received_form.cleaned_data['username'],
-                            password=received_form.cleaned_data['password'])
-        if user is None:
-            return render(request, 'articles/signup.html')
-        login(request, user)
-        return redirect('articles:index')
+        user = authenticate(username=form.cleaned_data['username'],
+                            password=form.cleaned_data['password'])
+        login(self.request, user)
+        return super(FormView, self).form_valid(form)
