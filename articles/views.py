@@ -12,7 +12,7 @@ from django.views.generic import View
 from django.views.generic.edit import CreateView
 
 from .forms import ArticleForm
-from .models import Article
+from .models import Article, Comment
 
 
 @require_safe
@@ -26,7 +26,8 @@ def article(request, article_id):
     article = Article.objects.get(id=article_id)
     article.view_count += 1
     article.save()
-    return render(request, 'articles/article.html', {'article': article})
+    comments = Comment.objects.filter(article_id=article_id).order_by('path')
+    return render(request, 'articles/article.html', {'article': article, 'comments': comments})
 
 
 @require_safe

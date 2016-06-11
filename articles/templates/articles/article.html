@@ -14,4 +14,9 @@
 <p>
 {{ article.content }}
 </p>
+<ul>
+{% for comment in comments %}
+    <li>{{ comment }}</li>
+{% endfor %}
+</ul>
 {% endblock %}
