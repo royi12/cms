@@ -19,7 +19,7 @@ class Comment(models.Model):
     """
     Comment can have comments, so each article has a tree of comments.
     The comment tree is saved using the materialized path method.
-    Materialized Path saves a path to it in each comment.
+    Materialized Path saves a path in each comment.
     Example for comments and their path:
         comment 1
             comment 1.1
@@ -28,6 +28,16 @@ class Comment(models.Model):
             comment 2.1
                 comment 2.1.1
             comment 2.2
+    Each number is padded to be 3 digits long, so 1 becomes 001.
+    That way, when sorting, 100 will be after 99 and not after 10 and 1.
+    With the same example:
+        comment 001
+            comment 001.001
+            comment 001.002
+        comment 002
+            comment 002.001
+                comment 002.001.001
+            comment 002.002
     """
     article = models.ForeignKey(Article)
     content = models.TextField()
