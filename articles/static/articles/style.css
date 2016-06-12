@@ -114,3 +114,33 @@ input:focus, textarea:focus {
     margin: 2px 40px;
     text-align: left;
 }
+
+.comment-button {
+    font-size: 14px;
+    padding: 3px 10px;
+    margin-bottom: 5px;
+    float: right;
+}
+
+.comment-form-box {
+  display: block;
+  background: #a2a2a2;
+  margin: 2px 40px;
+  height: 0px;
+}
+
+.comment-form {
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 1.5s;
+}
+
+.comment-form-box textarea {
+    width: 800px;
+    height: 100px;
+}
+
+.comment-form-box .button {
+    font-size: 14px;
+    padding: 8px 16px;
+}

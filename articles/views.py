@@ -11,7 +11,7 @@ from django.views.decorators.http import require_safe
 from django.views.generic import View
 from django.views.generic.edit import CreateView
 
-from .forms import ArticleForm
+from .forms import ArticleForm, CommentForm
 from .models import Article, Comment
 
 
@@ -54,6 +54,25 @@ class PublishView(View):
                               publish_date=timezone.now(), author=request.user)
         new_article.save()
         return redirect('articles:article', article_id=new_article.id)
+
+
+class CommentView(View):
+    @method_decorator(login_required)
+    def post(self, request):
+        form = CommentForm(request.POST)
+        if not form.is_valid():
+            return redirect('articles:index')
+
+        article_id = form.cleaned_data['article_id']
+        parent_path = form.cleaned_data['path']
+        new_comment_level = parent_path.count(".") + 1
+        children_count = Comment.objects.filter(article_id=article_id, path__startswith=parent_path,
+                                                level=new_comment_level).count()
+        new_comment_path = "{0}.{1:03d}".format(parent_path, children_count + 1)
+        new_comment = Comment(article_id=article_id, content=form.cleaned_data['content'],
+                              author=request.user, path=new_comment_path, level=new_comment_level)
+        new_comment.save()
+        return redirect('articles:article', article_id=article_id)
 
 
 class SignupView(CreateView):

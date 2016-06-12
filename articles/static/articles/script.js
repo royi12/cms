@@ -30,6 +30,34 @@ function toggleArticleForm() {
     }
 }
 
+function toggleCommentForm(toggleButton) {
+    commentId = toggleButton.parentElement.id;
+    formBox = document.getElementById("comment-"+commentId);
+    commentForm = document.getElementById("comment-form-"+commentId);
+    formBox.style.transition = "padding 0.5s, height 1.5s";
+    commentForm.addEventListener("transitionend", focusTitleInput);
+
+    if (formBox.style.height == "180px") {
+        formBox.style.transitionDelay = "0.5s";
+        formBox.style.height = "0";
+        formBox.style.padding = "0";
+        commentForm.style.transition = "opacity 0.5s, visibility 0.5s";
+        commentForm.style.transitionDelay = "0";
+        commentForm.style.opacity = "0";
+        commentForm.style.visibility = "hidden";
+        toggleButton.innerHTML = "Comment"
+    } else {
+        formBox.style.transitionDelay = "0";
+        formBox.style.height = "180px";
+        formBox.style.padding = "20px";
+        commentForm.style.transition = "opacity 0.5s, visibility 0.5s";
+        commentForm.style.transitionDelay = "1.5s";
+        commentForm.style.opacity = "1";
+        commentForm.style.visibility = "visible";
+        toggleButton.innerHTML = "Hide";
+    }
+}
+
 function isSignupFormValid() {
     var form = document.getElementById("signup-form");
     if (form["password1"].value != form["password2"].value) {
