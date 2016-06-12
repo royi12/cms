@@ -11,12 +11,16 @@
     | {{ article.view_count }} Views
 {% endif %}
 </p>
-<p>
+<p id="article">
 {{ article.content }}
 </p>
-<ul>
+<h4>Comments</h4>
+<div>
 {% for comment in comments %}
-    <li>{{ comment }}</li>
+    <div class="comment">
+        {{ comment.content }} <br />
+        ({{ comment.author.username }})
+    </div>
 {% endfor %}
-</ul>
+</div>
 {% endblock %}
