@@ -22,13 +22,13 @@
         <a onclick="toggleCommentForm(this)" href="#" class="button comment-button">Comment</a>
         ({{ comment.path }} - {{ comment.author.username }})
     </div>
-    <div class="comment-form-box" id="comment-{{ comment.path }}">
+    <div class="comment-form-box" id="comment-form-box-{{ comment.path }}">
         <form class="comment-form" id="comment-form-{{ comment.path }}" method="post" action="{% url 'articles:comment' %}">
-        <input type="hidden" name="path" value="{{ comment.path }}" />
-        <input type="hidden" name="article_id" value="{{ article.id }}" />
-        {% csrf_token %}
-        <textarea name="content" placeholder="Comment"></textarea>
-        <a onclick="document.getElementById('comment-form-{{ comment.path }}').submit();" class="button" href="#">Comment</a>
+            {% csrf_token %}
+            <input type="hidden" name="path" value="{{ comment.path }}" />
+            <input type="hidden" name="article_id" value="{{ article.id }}" />
+            <textarea name="content" placeholder="Comment"></textarea>
+            <a onclick="document.getElementById('comment-form-{{ comment.path }}').submit();" class="button" href="#">Comment</a>
         </form>
     </div>
 {% endfor %}

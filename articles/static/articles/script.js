@@ -32,7 +32,7 @@ function toggleArticleForm() {
 
 function toggleCommentForm(toggleButton) {
     commentId = toggleButton.parentElement.id;
-    formBox = document.getElementById("comment-"+commentId);
+    formBox = document.getElementById("comment-form-box-"+commentId);
     commentForm = document.getElementById("comment-form-"+commentId);
     formBox.style.transition = "padding 0.5s, height 1.5s";
     commentForm.addEventListener("transitionend", focusTitleInput);
