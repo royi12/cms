@@ -39,7 +39,11 @@ class Comment(models.Model):
                 comment 002.001.001
             comment 002.002
     """
-    article = models.ForeignKey(Article)
+    # a hack: without it, index won't be created in migration
+    class Meta:
+        index_together = ["article"]
+
+    article = models.ForeignKey(Article, db_index=True)
     content = models.TextField()
     author = models.ForeignKey(User, models.SET_NULL, null=True)
     path = models.TextField()
@@ -49,4 +53,4 @@ class Comment(models.Model):
     level = models.IntegerField()
 
     def __str__(self):
-        return "{} - {}".format(self.path, self.author)
+        return "{} - {} - {}".format(self.article.title, self.path, self.author)
