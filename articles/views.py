@@ -64,11 +64,17 @@ class CommentView(View):
             return redirect('articles:index')
 
         article_id = form.cleaned_data['article_id']
-        parent_path = form.cleaned_data['path']
-        new_comment_level = parent_path.count(".") + 1
-        children_count = Comment.objects.filter(article_id=article_id, path__startswith=parent_path,
-                                                level=new_comment_level).count()
-        new_comment_path = "{0}.{1:03d}".format(parent_path, children_count + 1)
+        parent_path = form.cleaned_data.get('path')
+        if parent_path:  # comment of a comment
+            new_comment_level = parent_path.count(".") + 1
+            children_count = Comment.objects.filter(article_id=article_id, path__startswith=parent_path,
+                                                    level=new_comment_level).count()
+            new_comment_path = "{0}.{1:03d}".format(parent_path, children_count + 1)
+        else:  # regular comment
+            new_comment_level = 0
+            children_count = Comment.objects.filter(article_id=article_id, level=new_comment_level).count()
+            new_comment_path = "{0:03d}".format(children_count + 1)
+
         new_comment = Comment(article_id=article_id, content=form.cleaned_data['content'],
                               author=request.user, path=new_comment_path, level=new_comment_level)
         new_comment.save()

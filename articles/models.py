@@ -44,7 +44,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, models.SET_NULL, null=True)
     path = models.TextField()
 
-    # Level in hierarchy comment tree.
+    # Level in hierarchy comment tree. Highest level is 0.
     # Saved in order to generate comment tree without having to calculate it every time from path field.
     level = models.IntegerField()
 

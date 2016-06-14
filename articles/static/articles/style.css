@@ -129,6 +129,12 @@ input:focus, textarea:focus {
   height: 0px;
 }
 
+#comment-form-box-root {
+  background: none;
+  height: 180px;
+  padding: 20px;
+}
+
 .comment-form {
   opacity: 0;
   visibility: hidden;

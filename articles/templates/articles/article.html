@@ -32,5 +32,13 @@
         </form>
     </div>
 {% endfor %}
+    <div class="comment-form-box" id="comment-form-box-root">
+        <form id="comment-form-root" method="post" action="{% url 'articles:comment' %}">
+            {% csrf_token %}
+            <input type="hidden" name="article_id" value="{{ article.id }}" />
+            <textarea name="content" placeholder="Comment"></textarea>
+            <a onclick="document.getElementById('comment-form-root').submit();" class="button" href="#">Comment</a>
+        </form>
+    </div>
 </div>
 {% endblock %}
